@@ -2,12 +2,20 @@ const WebSocket = require('ws');
 const { MongoClient } = require('mongodb');
 
 const PORT = process.env.PORT || 8080;
-const server = require('http').createServer();
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  // Simple response for HTTP requests (health check)
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('WebSocket server is running\n');
+});
+
 const wss = new WebSocket.Server({ server });
 
 server.listen(PORT, () => {
   console.log(`WebSocket server running on port ${PORT}`);
 });
+
 
 const uri = process.env.MONGO_URI;
  // Replace with your Atlas URI
