@@ -1,9 +1,16 @@
 const WebSocket = require('ws');
 const { MongoClient } = require('mongodb');
 
-const wss = new WebSocket.Server({ port: 8080 });
+const PORT = process.env.PORT || 8080;
+const server = require('http').createServer();
+const wss = new WebSocket.Server({ server });
 
-const uri = 'mongodb+srv://rudra:rudra@chatdb.116tuu9.mongodb.net/?retryWrites=true&w=majority&appName=chatdb'; // Replace with your Atlas URI
+server.listen(PORT, () => {
+  console.log(`WebSocket server running on port ${PORT}`);
+});
+
+const uri = process.env.MONGO_URI;
+ // Replace with your Atlas URI
 const client = new MongoClient(uri);
 
 let messagesCollection;
